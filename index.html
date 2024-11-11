@@ -6,6 +6,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="entrada.css" defer>
         <script src="entrada.js" defer></script>
+        <script src="sha256.js" defer></script>
     </head>
     <body>
         <div class="prinicpal">
@@ -15,9 +16,12 @@
             </div>
             <div class="senha">
                 <form action="">
-                    <input type="text">
+                    <input type="text" id="senha">
                 </form>
-                <button onclick="navegar()" >Entrar</button>
+                <button onclick="login()" >Entrar</button>
+                <div id="containerAviso">
+
+                </div>
             </div>
         </div>
     </body>

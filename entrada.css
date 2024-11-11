@@ -63,3 +63,15 @@ button:hover {
     background-color: white;
     color: black;
 }
+
+#alerta {
+    color: red;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+#confirm {
+    color: green;
+    font-size: 12px;
+    font-weight: bolder;
+}

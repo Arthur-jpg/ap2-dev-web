@@ -60,9 +60,17 @@ const card = (atleta) => {
 
 montarBotoes()
 
-fetchJson('https://botafogo-atletas.mange.li/2024-1/all').then(
-    ( retorno ) => {
-        retorno.forEach((atleta) => card(atleta));
-    }
-        
-)
+document.getElementById('logout').onclick = () => {sessionStorage.removeItem('logado'); location.reload();}
+
+if (sessionStorage.getItem('logado')) {
+
+    fetchJson('https://botafogo-atletas.mange.li/2024-1/all').then(
+        ( retorno ) => {
+            retorno.forEach((atleta) => card(atleta));
+        }
+            
+    )
+} else {
+    document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
+}
+
