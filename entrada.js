@@ -1,3 +1,3 @@
 function navegar() {
-    window.location = "ap2-dev-web/principal.html";
+    window.location = "/principal.html";
 }
