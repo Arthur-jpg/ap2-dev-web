@@ -1,3 +1,3 @@
 function navegar() {
-    window.location = "../principal.html"
+    window.location = "principal.html"
 }
