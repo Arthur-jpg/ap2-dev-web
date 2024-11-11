@@ -72,5 +72,6 @@ if (sessionStorage.getItem('logado')) {
     )
 } else {
     document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
+    window.location = "/index.html"
 }
 
