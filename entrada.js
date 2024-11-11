@@ -10,7 +10,7 @@ const login = () => {
         `
         const containerAviso = document.getElementById('containerAviso')
         containerAviso.innerHTML = alerta
-        window.location = '/principal.html'
+        window.location = 'principal.html'
     } else {
         const alerta = `
         <p id='alerta'>Senha incorreta</p>
