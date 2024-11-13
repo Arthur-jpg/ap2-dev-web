@@ -1,10 +1,11 @@
-// fetch do json da api
 
-const fetchJson = async (api) => {
-    const resposta = await fetch(api); // pegando a api
-    const dadosFuncionais = await resposta.json() // interpretando o JSON da API
+const fetchJson = async (api, endpoint) => {
 
-    return dadosFuncionais
+    const resposta = await fetch(api + endpoint); 
+    const dadosFuncionais = await resposta.json(); 
+    console.log(dadosFuncionais)
+    return dadosFuncionais;
+    
 }
 
 const container = document.getElementById('container')
@@ -15,15 +16,18 @@ const montarBotoes = () => {
     const botao1 = document.createElement("button")
     const newContent1 = document.createTextNode("Masculino");
     botao1.appendChild(newContent1);
-    // botao1.onclick = 
-
+    botao1.id = 'botao1'
+    
     const botao2 = document.createElement("button")
     const newContent2 = document.createTextNode("Feminino");
     botao2.appendChild(newContent2);
+    botao2.id = 'botao2'
 
     const botao3 = document.createElement("button")
     const newContent3 = document.createTextNode("Elenco Completo");
     botao3.appendChild(newContent3);
+    botao3.id = 'botao3'
+
     // add the text node to the newly created div
     botoes.appendChild(botao1)
     botoes.appendChild(botao2)
@@ -63,13 +67,56 @@ montarBotoes()
 document.getElementById('logout').onclick = () => {sessionStorage.removeItem('logado'); location.reload();}
 
 if (sessionStorage.getItem('logado')) {
+    let endpoint = '';
 
-    fetchJson('https://botafogo-atletas.mange.li/2024-1/all').then(
-        ( retorno ) => {
-            retorno.forEach((atleta) => card(atleta));
-        }
-            
-    )
+    const containerPrincipal = document.getElementById('container')
+    const masculino = document.getElementById('botao1');
+    const feminino = document.getElementById('botao2');
+    const elencoCompleto = document.getElementById('botao3');
+
+    function limparJogadores() {
+        containerPrincipal.innerHTML = ''
+    }
+
+    function mostrarCarregando(texto) {
+        mensagemCarregando.textContent = `Carregando elenco ${texto}...`
+        carregando.style.display = 'block'
+    }
+    function ocultarCarregando() {
+        carregando.style.display = 'none'
+    }
+
+    function carregarJogs( endpoint, status ) {
+        limparJogadores()
+        mostrarCarregando(status)
+        fetchJson('https://botafogo-atletas.mange.li/2024-1/', endpoint).then(
+            (retorno) => {
+                ocultarCarregando();
+                retorno.forEach((atleta) => card(atleta));
+            }
+        ).catch(() => {
+            ocultarCarregando();
+            alert('Erro ao carregar os dados. Tente novamente.');
+        });
+    }
+
+    
+    masculino.addEventListener("click", function() {
+        endpoint = 'masculino';
+        carregarJogs(endpoint, 'masculino')
+    });
+    
+    feminino.addEventListener("click", function() {
+        endpoint = 'feminino';
+        carregarJogs(endpoint, 'feminino')
+    });
+    
+    elencoCompleto.addEventListener("click", function() {
+        endpoint = 'all';
+        carregarJogs(endpoint, 'elenco completo')
+    });
+
+    
 } else {
     document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
     window.location = "/index.html"

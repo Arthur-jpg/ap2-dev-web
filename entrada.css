@@ -11,10 +11,13 @@ body {
 
 input {
     border: 0;
+    padding: 10px 10px;
+    border-radius: 10px;
+    width: 208px;
 
 }
 
-.prinicpal {
+#prinicpal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,7 +42,7 @@ input {
     }
 
 }
-.senha {
+#senhaa {
     @media (min-width: 380px) {
         display: flex;
         flex-direction: column;
