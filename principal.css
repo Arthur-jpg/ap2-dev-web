@@ -77,5 +77,45 @@ img {
 
 #mensagemCarregando {
     font-size: 16px;
-    color: #333; /* Cor do texto */
+    color: #333; 
+}
+
+/* Estilo básico para o menu de seleção */
+.menu-select {
+    display: none; /* Oculta o menu de seleção por padrão */
+
+}
+
+#filtroMenu {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 4px;
+}
+
+/* Oculta os botões e exibe o menu de seleção em telas menores que 760px */
+@media (max-width: 760px) {
+    #botoes {
+        display: none; /* Oculta os botões */
+    }
+    .menu-select {
+        display: block; /* Exibe o menu de seleção */
+    }
+    #filtroMenu {
+        border: 0;
+        background-color: #f5f5f5;
+        width: 150px;
+    }
+}
+
+#input {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+#input>input {
+    
 }

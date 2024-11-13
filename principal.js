@@ -3,7 +3,6 @@ const fetchJson = async (api, endpoint) => {
 
     const resposta = await fetch(api + endpoint); 
     const dadosFuncionais = await resposta.json(); 
-    console.log(dadosFuncionais)
     return dadosFuncionais;
     
 }
@@ -28,7 +27,6 @@ const montarBotoes = () => {
     botao3.appendChild(newContent3);
     botao3.id = 'botao3'
 
-    // add the text node to the newly created div
     botoes.appendChild(botao1)
     botoes.appendChild(botao2)
     botoes.appendChild(botao3)
@@ -66,39 +64,71 @@ montarBotoes()
 
 document.getElementById('logout').onclick = () => {sessionStorage.removeItem('logado'); location.reload();}
 
-if (sessionStorage.getItem('logado')) {
-    let endpoint = '';
+let endpoint = '';
 
-    const containerPrincipal = document.getElementById('container')
-    const masculino = document.getElementById('botao1');
-    const feminino = document.getElementById('botao2');
-    const elencoCompleto = document.getElementById('botao3');
+const containerPrincipal = document.getElementById('container')
+const masculino = document.getElementById('botao1');
+const feminino = document.getElementById('botao2');
+const elencoCompleto = document.getElementById('botao3');
+const filtroMenu = document.getElementById('filtroMenu');
+const barraPesquisa = document.getElementById('barraPesquisa')
 
-    function limparJogadores() {
-        containerPrincipal.innerHTML = ''
-    }
 
-    function mostrarCarregando(texto) {
-        mensagemCarregando.textContent = `Carregando elenco ${texto}...`
-        carregando.style.display = 'block'
-    }
-    function ocultarCarregando() {
-        carregando.style.display = 'none'
-    }
+function limparJogadores() {
+    containerPrincipal.innerHTML = ''
+}
 
-    function carregarJogs( endpoint, status ) {
-        limparJogadores()
-        mostrarCarregando(status)
-        fetchJson('https://botafogo-atletas.mange.li/2024-1/', endpoint).then(
-            (retorno) => {
-                ocultarCarregando();
-                retorno.forEach((atleta) => card(atleta));
-            }
-        ).catch(() => {
+function mostrarCarregando(texto) {
+    mensagemCarregando.textContent = `Carregando elenco ${texto}...`
+    carregando.style.display = 'block'
+}
+function ocultarCarregando() {
+    carregando.style.display = 'none'
+}
+
+function carregarJogs( endpoint, status ) {
+    limparJogadores()
+    mostrarCarregando(status)
+    fetchJson('https://botafogo-atletas.mange.li/2024-1/', endpoint).then(
+        (retorno) => {
             ocultarCarregando();
-            alert('Erro ao carregar os dados. Tente novamente.');
-        });
-    }
+            retorno.forEach((atleta) => card(atleta));
+        }
+    ).catch(() => {
+        ocultarCarregando();
+        alert('Erro ao carregar os dados. Tente novamente.');
+    });
+}
+
+function filtrarJogadores(jogadores, pesquisa) {
+    return jogadores.filter(jogador => jogador.nome.toLowerCase().includes(pesquisa.toLowerCase()));
+}
+
+function exibirJogadores(jogadores) {
+    limparJogadores()
+
+    jogadores.forEach((atleta) => card(atleta));
+}
+
+
+if (sessionStorage.getItem('logado')) {
+
+    filtroMenu.addEventListener('change', function() {
+        const valorSelecionado = filtroMenu.value;
+
+        if (valorSelecionado) {
+            if (valorSelecionado === 'masculino') {
+                endpoint = 'masculino';
+                carregarJogs(endpoint, 'masculino')
+            } else if (valorSelecionado === 'feminino') {
+                endpoint = 'feminino';
+                carregarJogs(endpoint, 'feminino')
+            } else if (valorSelecionado === 'elencoCompleto') {
+                endpoint = 'all';
+                carregarJogs(endpoint, 'elenco completo')
+            }
+        }
+    });
 
     
     masculino.addEventListener("click", function() {
@@ -116,9 +146,22 @@ if (sessionStorage.getItem('logado')) {
         carregarJogs(endpoint, 'elenco completo')
     });
 
+    barraPesquisa.addEventListener('input', function() {
+        const pesquisa = barraPesquisa.value;
+
+        fetch('https://botafogo-atletas.mange.li/2024-1/all')
+            .then(response => response.json())
+            .then(jogadores => {
+                const jogadoresFiltrados = filtrarJogadores(jogadores, pesquisa);
+                exibirJogadores(jogadoresFiltrados); 
+            });
+
+    });
+
     
 } else {
     document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
     window.location = "/index.html"
 }
+
 
