@@ -113,7 +113,7 @@ function exibirJogadores(jogadores) {
 
 if (sessionStorage.getItem('logado')) {
 
-    filtroMenu.addEventListener('change', function() {
+    filtroMenu.addEventListener('change', function() {dis
         const valorSelecionado = filtroMenu.value;
 
         if (valorSelecionado) {
@@ -161,7 +161,7 @@ if (sessionStorage.getItem('logado')) {
     
 } else {
     document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
-    window.location = "/index.html"
+    window.location = "index.html"
 }
 
 
