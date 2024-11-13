@@ -73,7 +73,7 @@ body {
 #input {
     width: 61%;
     max-width: 1200px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 #barraPesquisa {
@@ -153,6 +153,9 @@ body {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, transform 0.2s;
 }
+#header>p {
+    font-weight: bold;
+}
 
 #mensagemCarregando {
     margin-top: 10px;
@@ -161,7 +164,8 @@ body {
 }
 .menu-select {
     display: none; 
-    margin: 20px 20px;
+    margin-top: 50px;
+    margin-bottom: 20px ;
 }
 @media (max-width: 760px) {
     #botoes {
@@ -178,4 +182,9 @@ body {
         border-radius: 10px;
     }
 
+    #header img {
+        width: 50px;
+        height: auto;
+        border-radius: 8px;
+    }
 }
