@@ -113,7 +113,7 @@ function exibirJogadores(jogadores) {
 
 if (sessionStorage.getItem('logado')) {
 
-    filtroMenu.addEventListener('change', function() {dis
+    filtroMenu.addEventListener('change', function() {
         const valorSelecionado = filtroMenu.value;
 
         if (valorSelecionado) {
