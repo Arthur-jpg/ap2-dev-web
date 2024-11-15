@@ -27,9 +27,21 @@ const montarBotoes = () => {
     botao3.appendChild(newContent3);
     botao3.id = 'botao3'
 
+    const botao4 = document.createElement("button")
+    const newContent4 = document.createTextNode("Limpar Pesquisa")
+    botao4.appendChild(newContent4)
+    botao4.id = 'botao4'
+    botao4.onclick = function() {
+        limparJogadores()
+    };
+
+
+
     botoes.appendChild(botao1)
     botoes.appendChild(botao2)
     botoes.appendChild(botao3)
+    botoes.appendChild(botao4)
+
 }
 
 const card = (atleta) => {
@@ -38,6 +50,7 @@ const card = (atleta) => {
     const imagem = document.createElement("img");
     const descricao = document.createElement("p");
     const span_id = document.createElement('span');
+    const link = document.createElement("a")
 
     nome.innerHTML = atleta.nome;
     cartao.appendChild(nome);
@@ -53,6 +66,10 @@ const card = (atleta) => {
 
     span_id.innerHTML = atleta.id
     cartao.appendChild(span_id)
+
+    link.innerHTML = "Saiba mais...";
+    link.href = `detalhes.html?id=${atleta.id}`
+    cartao.appendChild(link);
 
 
 
@@ -164,4 +181,63 @@ if (sessionStorage.getItem('logado')) {
     window.location = "index.html"
 }
 
+// Recuperar o estado salvo do filtro e da barra de pesquisa
+window.onload = function() {
+    const filtroSalvo = sessionStorage.getItem('filtroSelecionado');
+    const pesquisaSalva = sessionStorage.getItem('barraPesquisa');
+
+    if (filtroSalvo) {
+        filtroMenu.value = filtroSalvo;
+        if (filtroSalvo === 'masculino') {
+            endpoint = 'masculino';
+            carregarJogs(endpoint, 'masculino');
+        } else if (filtroSalvo === 'feminino') {
+            endpoint = 'feminino';
+            carregarJogs(endpoint, 'feminino');
+        } else if (filtroSalvo === 'elencoCompleto') {
+            endpoint = 'all';
+            carregarJogs(endpoint, 'elenco completo');
+        }
+    }
+
+    if (pesquisaSalva) {
+        barraPesquisa.value = pesquisaSalva;
+        fetch('https://botafogo-atletas.mange.li/2024-1/all')
+            .then(response => response.json())
+            .then(jogadores => {
+                const jogadoresFiltrados = filtrarJogadores(jogadores, pesquisaSalva);
+                exibirJogadores(jogadoresFiltrados);
+            });
+    }
+};
+
+// Salvar o estado do filtro no sessionStorage ao selecionar
+filtroMenu.addEventListener('change', function() {
+    const valorSelecionado = filtroMenu.value;
+    sessionStorage.setItem('filtroSelecionado', valorSelecionado);
+
+    if (valorSelecionado === 'masculino') {
+        endpoint = 'masculino';
+        carregarJogs(endpoint, 'masculino');
+    } else if (valorSelecionado === 'feminino') {
+        endpoint = 'feminino';
+        carregarJogs(endpoint, 'feminino');
+    } else if (valorSelecionado === 'elencoCompleto') {
+        endpoint = 'all';
+        carregarJogs(endpoint, 'elenco completo');
+    }
+});
+
+// Salvar o estado da barra de pesquisa no sessionStorage ao digitar
+barraPesquisa.addEventListener('input', function() {
+    const pesquisa = barraPesquisa.value;
+    sessionStorage.setItem('barraPesquisa', pesquisa);
+
+    fetch('https://botafogo-atletas.mange.li/2024-1/all')
+        .then(response => response.json())
+        .then(jogadores => {
+            const jogadoresFiltrados = filtrarJogadores(jogadores, pesquisa);
+            exibirJogadores(jogadoresFiltrados);
+        });
+});
 
