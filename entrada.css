@@ -92,10 +92,9 @@ button:hover {
     color: #fff;
 }
 
-#containerAviso p {
+#containerAviso {
     margin-top: 20px;
-    font-size: 14px;
-    color: #ff3b30; 
+    font-size: 14px; 
     
 }
 
@@ -117,4 +116,11 @@ button:hover {
     width: 2000px;
     height: 2000px;
     border-radius: 50%;
+}
+
+#confirm {
+    color: green;
+}
+#alerta{
+    color: red;
 }

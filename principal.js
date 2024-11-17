@@ -48,9 +48,8 @@ const card = (atleta) => {
     const cartao = document.createElement("article");
     const nome = document.createElement("h1");
     const imagem = document.createElement("img");
-    const descricao = document.createElement("p");
-    const span_id = document.createElement('span');
     const link = document.createElement("a")
+
 
     nome.innerHTML = atleta.nome;
     cartao.appendChild(nome);
@@ -58,14 +57,9 @@ const card = (atleta) => {
     imagem.src = atleta.imagem;
     cartao.appendChild(imagem);
     
-    descricao.innerHTML = atleta.detalhes;
-    cartao.appendChild(descricao);
 
     cartao.dataset.id = atleta.id;
     cartao.dataset.nome = atleta.nome
-
-    span_id.innerHTML = atleta.id
-    cartao.appendChild(span_id)
 
     link.innerHTML = "Saiba mais...";
     link.href = `detalhes.html?id=${atleta.id}`

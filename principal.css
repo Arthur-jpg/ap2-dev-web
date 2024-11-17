@@ -95,19 +95,68 @@ body {
 
 #barraPesquisa:focus {
     border-color: #fff; 
+
 }
 
 #container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    background-color: #1c1c1e; 
+    flex-wrap: wrap;
+    gap: 30px;
+    background-color: #1c1c1e;
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
+
+#container > article {
+    background-color: #38383c;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%; /* Padrão para um card por linha em telas menores */
+}
+
+/* Para telas até 768px: 1 card por linha */
+@media (max-width: 768px) {
+    #container > article {
+        width: 100%; /* Card ocupa 100% da largura */
+        
+    }
+    article>img {
+        width: 600px;
+    }
+}
+
+/* Para telas até 1024px: 3 cards por linha */
+@media (max-width: 1024px) {
+    #container > article {
+        width: calc((100% - 60px) / 3); /* Dividindo a largura igualmente para 3 cards, ajustando o espaço */
+        
+    }
+    article>img {
+        width: 160px;
+    }
+    article>p {
+        width: 160px;
+    }
+    article>h1 {
+        width: 160px;
+        font-size: 17px;
+    }
+}
+
+/* Para telas maiores que 1024px: 4 cards por linha */
+@media (min-width: 1025px) {
+    #container > article {
+        width: calc((100% - 90px) / 4); /* Dividindo a largura igualmente para 4 cards, ajustando o espaço */
+    }
+}
+
+
 
 
 #carregando {

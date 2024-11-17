@@ -35,6 +35,14 @@ const montarCard = (atleta) => {
     container.appendChild(cartao)
 }
 
-pega_json(`https://botafogo-atletas.mange.li/2024-1/`).then(
-    (atleta) => montarCard(atleta)
-)
+if (sessionStorage.getItem('logado')) {
+
+
+    pega_json(`https://botafogo-atletas.mange.li/2024-1/`).then(
+        (atleta) => montarCard(atleta)
+    )
+    
+} else {
+    document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
+
+}
