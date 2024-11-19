@@ -128,6 +128,12 @@ article>a {
     text-decoration: none;
     color: black;
     border-radius: 5px;
+    width: 80%;
+}
+article>a:hover {
+    background-color: black;
+    color: white;
+
 }
 
 article>h1 {
@@ -141,7 +147,7 @@ article>h1 {
 @media (max-width: 768px) {
 
     article>img {
-        width: 100%;
+        width: 80%;
     }
 }
 
