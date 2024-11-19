@@ -118,21 +118,37 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 100%; /* Padrão para um card por linha em telas menores */
+    width: 100%; 
 }
 
-/* Para telas até 768px: 1 card por linha */
+article>a {
+    background-color: white;
+    padding: 5px 5px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+}
+
+article>h1 {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 @media (max-width: 768px) {
 
     article>img {
-        width: 600px;
+        width: 100%;
     }
 }
 
-/* Para telas até 1024px: 3 cards por linha */
+
 @media (min-width: 769px) {
     #container > article {
-        width: calc((100% - 60px) / 3); /* Dividindo a largura igualmente para 3 cards, ajustando o espaço */
+        width: calc((100% - 60px) / 3); 
         
     }
     article>img {
@@ -147,10 +163,16 @@ body {
     }
 }
 
-/* Para telas maiores que 1024px: 4 cards por linha */
+
 @media (min-width: 1025px) {
     #container > article {
-        width: calc((100% - 90px) / 4); /* Dividindo a largura igualmente para 4 cards, ajustando o espaço */
+        width: calc((100% - 90px) / 4); 
+    }
+}
+
+@media (min-width: 1300px) {
+    #container > article {
+        width: calc((100% - 130px) / 5); 
     }
 }
 
@@ -215,7 +237,7 @@ body {
     margin-top: 50px;
     margin-bottom: 20px ;
 }
-@media (max-width: 760px) {
+@media (max-width: 768px) {
     #botoes {
         display: none;
     }

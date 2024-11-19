@@ -12,37 +12,83 @@ const pega_json = async (caminho) => {
     return dados
 }
 
-const montarCard = (atleta) => {
-    const cartao = document.createElement("article");
+const montaDetalhes = (atleta) => {
+
     const nome = document.createElement("h1");
-    const imagem = document.createElement("img");
-    const descricao = document.createElement("p");
-    const link = document.createElement("a")
+    const imagem = document.createElement("img")
+    const posicao = document.createElement('p')
+    const n_jogos = document.createElement('p')
+    const idades = document.createElement('p')
+    const altura = document.createElement('p')
+    const descricao = document.createElement("p")
+
+    const divDireita = document.createElement('div')
+    const divEsquerda = document.createElement('div')
+
+    divDireita.id = 'divDireita'
+    divEsquerda.id = 'divEsquerda'
+
+    let dataNascimentoStr = atleta.nascimento
+
+    let partesData = dataNascimentoStr.split("/");
+    let dia = parseInt(partesData[0], 10);
+    let mes = parseInt(partesData[1], 10) - 1; 
+    let ano = parseInt(partesData[2], 10);
+
+    let dataNascimento = new Date(ano, mes, dia);
+   
+    let hoje = new Date();
+
+    let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+    let mesAtual = hoje.getMonth();
+    let mesNascimento = dataNascimento.getMonth();
+    let diaAtual = hoje.getDate();
+
+    if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < dataNascimento.getDate())) {
+    idade--;
+    }
+
+
+    
 
     nome.innerHTML = atleta.nome;
-    cartao.appendChild(nome);
+    divEsquerda.appendChild(nome);
 
-    imagem.src = atleta.imagem;
-    cartao.appendChild(imagem);
     
-    descricao.innerHTML = atleta.detalhes;
-    cartao.appendChild(descricao);
+    imagem.src = atleta.imagem;
+    divEsquerda.appendChild(imagem);
+    
+    idades.innerHTML = '<strong>Idade</strong>: ' + idade + ' anos'
+    divDireita.appendChild(idades)
 
-    link.innerHTML = "Saiba mais...";
-    link.href = `detalhes.html?id=${atleta.id}`
-    cartao.appendChild(link);
+    altura.innerHTML = "<strong>Altura</strong>: " + atleta.altura
+    divDireita.appendChild(altura)
 
-    container.appendChild(cartao)
+    posicao.innerHTML = "<strong>Posição</strong>: " + atleta.posicao
+    divDireita.appendChild(posicao)
+
+    n_jogos.innerHTML = "<strong>Número de jogos</strong>: " + atleta.n_jogos
+    divDireita.appendChild(n_jogos)
+
+    descricao.innerHTML = "<strong>Descrição</strong>: " + atleta.detalhes;
+    divDireita.appendChild(descricao);
+
+    container.appendChild(divEsquerda)
+    container.appendChild(divDireita)
+
 }
 
 if (sessionStorage.getItem('logado')) {
 
 
     pega_json(`https://botafogo-atletas.mange.li/2024-1/`).then(
-        (atleta) => montarCard(atleta)
+        (atleta) => montaDetalhes(atleta)
     )
     
 } else {
     document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
+}
 
+function voltar() {
+    window.location = 'principal.html'
 }
