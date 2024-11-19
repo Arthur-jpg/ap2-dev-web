@@ -115,12 +115,6 @@ function filtrarJogadores(jogadores, pesquisa) {
     return jogadores.filter(jogador => jogador.nome.toLowerCase().includes(pesquisa.toLowerCase()));
 }
 
-function exibirJogadores(jogadores) {
-    limparJogadores()
-
-    jogadores.forEach((atleta) => card(atleta));
-}
-
 
 if (sessionStorage.getItem('logado')) {
 
@@ -175,33 +169,55 @@ if (sessionStorage.getItem('logado')) {
     window.location = "index.html"
 }
 
-// Recuperar o estado salvo do filtro e da barra de pesquisa
+
+// Função para salvar os cards renderizados no sessionStorage
+function salvarCardsRenderizados(jogadores) {
+    sessionStorage.setItem('cardsRenderizados', JSON.stringify(jogadores));
+}
+
+// Atualizar a função exibirJogadores para salvar os cards exibidos
+function exibirJogadores(jogadores) {
+    limparJogadores();
+    jogadores.forEach(atleta => card(atleta));
+    // Salvar os jogadores no sessionStorage
+    salvarCardsRenderizados(jogadores);
+}
+
+// Ao carregar a página, verificar se há cards salvos no sessionStorage
 window.onload = function() {
     const filtroSalvo = sessionStorage.getItem('filtroSelecionado');
     const pesquisaSalva = sessionStorage.getItem('barraPesquisa');
+    const cardsSalvos = sessionStorage.getItem('cardsRenderizados');
 
-    if (filtroSalvo) {
-        filtroMenu.value = filtroSalvo;
-        if (filtroSalvo === 'masculino') {
-            endpoint = 'masculino';
-            carregarJogs(endpoint, 'masculino');
-        } else if (filtroSalvo === 'feminino') {
-            endpoint = 'feminino';
-            carregarJogs(endpoint, 'feminino');
-        } else if (filtroSalvo === 'elencoCompleto') {
-            endpoint = 'all';
-            carregarJogs(endpoint, 'elenco completo');
+    if (cardsSalvos) {
+        // Se existirem cards salvos, os exibe sem fazer nova requisição
+        const jogadores = JSON.parse(cardsSalvos);
+        exibirJogadores(jogadores);
+    } else {
+        // Se não houver cards salvos, carregar os dados com base no filtro ou pesquisa
+        if (filtroSalvo) {
+            filtroMenu.value = filtroSalvo;
+            if (filtroSalvo === 'masculino') {
+                endpoint = 'masculino';
+                carregarJogs(endpoint, 'masculino');
+            } else if (filtroSalvo === 'feminino') {
+                endpoint = 'feminino';
+                carregarJogs(endpoint, 'feminino');
+            } else if (filtroSalvo === 'elencoCompleto') {
+                endpoint = 'all';
+                carregarJogs(endpoint, 'elenco completo');
+            }
         }
-    }
 
-    if (pesquisaSalva) {
-        barraPesquisa.value = pesquisaSalva;
-        fetch('https://botafogo-atletas.mange.li/2024-1/all')
-            .then(response => response.json())
-            .then(jogadores => {
-                const jogadoresFiltrados = filtrarJogadores(jogadores, pesquisaSalva);
-                exibirJogadores(jogadoresFiltrados);
-            });
+        if (pesquisaSalva) {
+            barraPesquisa.value = pesquisaSalva;
+            fetch('https://botafogo-atletas.mange.li/2024-1/all')
+                .then(response => response.json())
+                .then(jogadores => {
+                    const jogadoresFiltrados = filtrarJogadores(jogadores, pesquisaSalva);
+                    exibirJogadores(jogadoresFiltrados);
+                });
+        }
     }
 };
 
@@ -209,7 +225,6 @@ window.onload = function() {
 filtroMenu.addEventListener('change', function() {
     const valorSelecionado = filtroMenu.value;
     sessionStorage.setItem('filtroSelecionado', valorSelecionado);
-
     if (valorSelecionado === 'masculino') {
         endpoint = 'masculino';
         carregarJogs(endpoint, 'masculino');
@@ -226,7 +241,6 @@ filtroMenu.addEventListener('change', function() {
 barraPesquisa.addEventListener('input', function() {
     const pesquisa = barraPesquisa.value;
     sessionStorage.setItem('barraPesquisa', pesquisa);
-
     fetch('https://botafogo-atletas.mange.li/2024-1/all')
         .then(response => response.json())
         .then(jogadores => {
@@ -234,4 +248,3 @@ barraPesquisa.addEventListener('input', function() {
             exibirJogadores(jogadoresFiltrados);
         });
 });
-

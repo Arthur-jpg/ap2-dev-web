@@ -145,7 +145,7 @@ article>h1 {
 
 
 @media (max-width: 768px) {
-
+    
     article>img {
         width: 80%;
     }
@@ -153,8 +153,12 @@ article>h1 {
 
 
 @media (min-width: 769px) {
+    #container{
+        display: flex;
+        justify-content: center;
+    }
     #container > article {
-        width: calc((100% - 60px) / 3); 
+        width: 200px
         
     }
     article>img {
@@ -163,6 +167,8 @@ article>h1 {
     article>p {
         width: 160px;
     }
+
+
     article>h1 {
         width: 160px;
         font-size: 17px;
@@ -172,13 +178,16 @@ article>h1 {
 
 @media (min-width: 1025px) {
     #container > article {
-        width: calc((100% - 90px) / 4); 
+        width: 200px; 
     }
 }
 
 @media (min-width: 1300px) {
+    #container {
+        width: 1400px;
+    }
     #container > article {
-        width: calc((100% - 130px) / 5); 
+        width: 210px; 
     }
 }
 
