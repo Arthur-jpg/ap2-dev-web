@@ -1,9 +1,12 @@
 
 const fetchJson = async (api, endpoint) => {
-
-    const resposta = await fetch(api + endpoint); 
-    const dadosFuncionais = await resposta.json(); 
-    return dadosFuncionais;
+    try {
+        const resposta = await fetch(api + endpoint); 
+        const dadosFuncionais = await resposta.json(); 
+        return dadosFuncionais;
+    } catch (error) {
+        alert('Problema ao carregar dados')
+    }
     
 }
 

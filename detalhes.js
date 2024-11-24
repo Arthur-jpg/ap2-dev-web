@@ -6,10 +6,15 @@ console.log(ids)
 const container = document.getElementById('container');
 
 const pega_json = async (caminho) => {
-    const resposta = await fetch(caminho + ids);
-    console.log(resposta)
-    const dados = await resposta.json();
-    return dados
+    try {
+        const resposta = await fetch(caminho + ids);
+        console.log(resposta)
+        const dados = await resposta.json();
+        return dados
+        
+    } catch (error) {
+        alert('Problema ao carregar os dados')
+    }
 }
 
 const montaDetalhes = (atleta) => {
