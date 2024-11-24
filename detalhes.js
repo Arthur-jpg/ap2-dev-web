@@ -87,7 +87,7 @@ if (sessionStorage.getItem('logado')) {
     
 } else {
     let segundos = 5; 
-
+    document.body.innerHTML = `<h1>Faça o login para ver o conteúdo</h1><h3>Você será redirecionado em ${segundos} segundos</h3>`;
     const intervalo = setInterval(() => {
         document.body.innerHTML = `<h1>Faça o login para ver o conteúdo</h1><h3>Você será redirecionado em ${segundos} segundos</h3>`;
         
