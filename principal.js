@@ -165,36 +165,49 @@ if (sessionStorage.getItem('logado')) {
 
     
 } else {
-    document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
-    window.location = "index.html"
+    let segundos = 5; 
+
+    const intervalo = setInterval(() => {
+        document.body.innerHTML = `<h1>Faça o login para ver o conteúdo</h1><h3>Você será redirecionado em ${segundos} segundos</h3>`;
+        
+        segundos--; 
+    
+
+        if (segundos < 0) {
+            clearInterval(intervalo);
+            document.body.innerHTML = "Redirecionando...";
+
+            setTimeout(() => {
+                window.location.href = "index.html"; 
+            }, 1000);
+        }
+    }, 1000);
+    
+    
 }
 
 
-// Função para salvar os cards renderizados no sessionStorage
 function salvarCardsRenderizados(jogadores) {
     sessionStorage.setItem('cardsRenderizados', JSON.stringify(jogadores));
 }
 
-// Atualizar a função exibirJogadores para salvar os cards exibidos
 function exibirJogadores(jogadores) {
     limparJogadores();
     jogadores.forEach(atleta => card(atleta));
-    // Salvar os jogadores no sessionStorage
+
     salvarCardsRenderizados(jogadores);
 }
-
-// Ao carregar a página, verificar se há cards salvos no sessionStorage
 window.onload = function() {
     const filtroSalvo = sessionStorage.getItem('filtroSelecionado');
     const pesquisaSalva = sessionStorage.getItem('barraPesquisa');
     const cardsSalvos = sessionStorage.getItem('cardsRenderizados');
 
     if (cardsSalvos) {
-        // Se existirem cards salvos, os exibe sem fazer nova requisição
+
         const jogadores = JSON.parse(cardsSalvos);
         exibirJogadores(jogadores);
     } else {
-        // Se não houver cards salvos, carregar os dados com base no filtro ou pesquisa
+
         if (filtroSalvo) {
             filtroMenu.value = filtroSalvo;
             if (filtroSalvo === 'masculino') {
@@ -221,7 +234,7 @@ window.onload = function() {
     }
 };
 
-// Salvar o estado do filtro no sessionStorage ao selecionar
+
 filtroMenu.addEventListener('change', function() {
     const valorSelecionado = filtroMenu.value;
     sessionStorage.setItem('filtroSelecionado', valorSelecionado);
@@ -237,7 +250,7 @@ filtroMenu.addEventListener('change', function() {
     }
 });
 
-// Salvar o estado da barra de pesquisa no sessionStorage ao digitar
+
 barraPesquisa.addEventListener('input', function() {
     const pesquisa = barraPesquisa.value;
     sessionStorage.setItem('barraPesquisa', pesquisa);

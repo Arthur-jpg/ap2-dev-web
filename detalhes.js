@@ -8,7 +8,7 @@ const container = document.getElementById('container');
 const pega_json = async (caminho) => {
     const resposta = await fetch(caminho + ids);
     console.log(resposta)
-    const dados = await resposta.json(); // transformando a string em json 
+    const dados = await resposta.json();
     return dados
 }
 
@@ -86,7 +86,23 @@ if (sessionStorage.getItem('logado')) {
     )
     
 } else {
-    document.body.innerHTML = "<h1>Faça o login para ver o conteúdo</h1>"
+    let segundos = 5; 
+
+    const intervalo = setInterval(() => {
+        document.body.innerHTML = `<h1>Faça o login para ver o conteúdo</h1><h3>Você será redirecionado em ${segundos} segundos</h3>`;
+        
+        segundos--; 
+    
+
+        if (segundos < 0) {
+            clearInterval(intervalo);
+            document.body.innerHTML = "Redirecionando...";
+
+            setTimeout(() => {
+                window.location.href = "index.html"; 
+            }, 1000);
+        }
+    }, 1000);
 }
 
 function voltar() {
